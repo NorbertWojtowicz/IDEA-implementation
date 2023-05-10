@@ -13,12 +13,6 @@ public class IDEACipher {
         this.encryptionSubKeys = new ArrayList<>();
         this.decryptionSubKeys = new ArrayList<>();
         generateSubKeys();
-//        for (int i = 0; i < encryptionSubKeys.size(); i++) {
-//            if (i % 6 == 0) {
-//                System.out.println("--------");
-//            }
-//            System.out.println(encryptionSubKeys.get(i));
-//        }
     }
 
     private void generateSubKeys() {
@@ -37,18 +31,38 @@ public class IDEACipher {
     }
 
     private void generateDecryptionSubKeys() {
-
+        generateOutputTransformationDecryptionKeys();
+        for(int i = 7; i >= 0; i--) {
+            decryptionSubKeys.add(encryptionSubKeys.get(i * 6 + 4));
+            decryptionSubKeys.add(encryptionSubKeys.get(i * 6 + 5));
+            decryptionSubKeys.add(encryptionSubKeys.get(i * 6).reverse());
+            if (i == 0) {
+                decryptionSubKeys.add(encryptionSubKeys.get(1).binaryTwosComplement());
+                decryptionSubKeys.add(encryptionSubKeys.get(2).binaryTwosComplement());
+            } else {
+                decryptionSubKeys.add(encryptionSubKeys.get(i * 6 + 2).binaryTwosComplement());
+                decryptionSubKeys.add(encryptionSubKeys.get(i * 6 + 1).binaryTwosComplement());
+            }
+            decryptionSubKeys.add(encryptionSubKeys.get(i * 6 + 3).reverse());
+        }
     }
 
-    public String encrypt(IDEAInputBlock inputBlock) {
+    private void generateOutputTransformationDecryptionKeys() {
+        decryptionSubKeys.add(encryptionSubKeys.get(48).reverse());
+        decryptionSubKeys.add(encryptionSubKeys.get(49).binaryTwosComplement());
+        decryptionSubKeys.add(encryptionSubKeys.get(50).binaryTwosComplement());
+        decryptionSubKeys.add(encryptionSubKeys.get(51).reverse());
+    }
+
+    public IDEAInputBlock encrypt(IDEAInputBlock inputBlock) {
         return applyRounds(inputBlock, encryptionSubKeys);
     }
 
-    public String decrypt(String encrypted) {
-        return "decrypted";
+    public IDEAInputBlock decrypt(IDEAInputBlock inputBlockToDecrypt) {
+        return applyRounds(inputBlockToDecrypt, decryptionSubKeys);
     }
 
-    private String applyRounds(IDEAInputBlock inputBlock, List<BitArray> keys) {
+    private IDEAInputBlock applyRounds(IDEAInputBlock inputBlock, List<BitArray> keys) {
         IDEARoundExecutor ideaRoundExecutor = new IDEARoundExecutor(inputBlock);
 
         for (int i = 0; i < 8; i++) {
@@ -58,6 +72,6 @@ public class IDEACipher {
         }
         ideaRoundExecutor.applyOutputTransformation(List.of(keys.get(48), keys.get(49), keys.get(50), keys.get(51)));
 
-        return inputBlock.getBitArray().toHexString();
+        return inputBlock;
     }
 }

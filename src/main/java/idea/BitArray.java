@@ -1,5 +1,9 @@
 package idea;
 
+import idea.operators.IDEAModuloAdditionOperator;
+
+import java.math.BigInteger;
+
 public class BitArray {
     private final int size;
     private boolean bitArray[];
@@ -96,7 +100,9 @@ public class BitArray {
                 n <<= 1;
                 n += bitArray[i + j] ? 1 : 0;
             }
-            sb.append((char) n);
+            if (n != 0) {
+                sb.append((char) n);
+            }
         }
         return sb.toString();
     }
@@ -118,5 +124,28 @@ public class BitArray {
 
     public int size() {
         return size;
+    }
+
+    public BitArray reverse() {
+        int toReverse = this.toInt();
+        int reversed = BigInteger
+                .valueOf(toReverse)
+                .modInverse(BigInteger.valueOf(65537))
+                .intValue();
+        return BitArray.fromBinaryString(Integer.toBinaryString(reversed), 16);
+    }
+
+    public BitArray binaryTwosComplement() {
+        IDEAModuloAdditionOperator additionOperator = new IDEAModuloAdditionOperator();
+        return additionOperator.apply(this.negate(),
+                BitArray.fromBinaryString(Integer.toBinaryString(1), this.size));
+    }
+
+    private BitArray negate() {
+        BitArray negated = new BitArray(this.size);
+        for(int i = 0;i < size;i++){
+            negated.set(i, !this.bitArray[i]);
+        }
+        return negated;
     }
 }

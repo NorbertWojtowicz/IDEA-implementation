@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class IDEAKey {
-    public static final int KEY_BYTES_LIMIT = 128;
+    public static final int KEY_BYTES = 128;
     private BitArray bitArray;
     private IDEAKey(byte[] keyBytes) {
         initializeBitArray(keyBytes);
@@ -14,8 +14,8 @@ public class IDEAKey {
 
     public static IDEAKey createFromString(String key) {
         byte[] keyBytes = key.getBytes(StandardCharsets.UTF_8);
-        if (keyBytes.length * 8 > KEY_BYTES_LIMIT) {
-            throw new RuntimeException("Klucz przekracza limit " + KEY_BYTES_LIMIT + " bitow...");
+        if (keyBytes.length * 8 != KEY_BYTES) {
+            throw new RuntimeException("Ze wzgledow bezpieczenstwa klucz musi miec rozmiar " + KEY_BYTES + " bitow.");
         }
         return new IDEAKey(keyBytes);
     }
@@ -48,8 +48,4 @@ public class IDEAKey {
     public void shiftLeft(int shift) {
         bitArray = bitArray.shiftLeft(shift);
     }
-
-//    public List<idea.BitArray> getOutputTransformationKeys() {
-//        return getSubKeys()
-//    }
 }
