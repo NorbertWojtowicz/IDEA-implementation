@@ -68,9 +68,10 @@ public class IDEACipher {
         for (int i = 0; i < 8; i++) {
             ideaRoundExecutor.apply(List.of(keys.get(i * 6), keys.get(i * 6 + 1), keys.get(i * 6 + 2),
                     keys.get(i * 6 + 3), keys.get(i * 6 + 4), keys.get(i * 6 + 5)));
-            System.out.println(inputBlock.getBitArray().toHexString());
+            System.out.println(inputBlock.getBitArray().toHexString() + " - result block of " + (i + 1) + " round");
         }
         ideaRoundExecutor.applyOutputTransformation(List.of(keys.get(48), keys.get(49), keys.get(50), keys.get(51)));
+        System.out.println(inputBlock.getBitArray().toHexString() + " - result block after applying 'output transformation'");
 
         return inputBlock;
     }

@@ -10,7 +10,6 @@ public class IDEAInputBlock {
     private static int BLOCK_SIZE = 64;
 
     private IDEAInputBlock(byte[] blockBytes) {
-        System.out.println(Arrays.toString(blockBytes));
         initializeBitArray(blockBytes);
     }
 

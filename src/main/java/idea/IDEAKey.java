@@ -21,12 +21,7 @@ public class IDEAKey {
     }
 
     private void initializeBitArray(byte[] keyBytes) {
-        System.out.println(Arrays.toString(keyBytes));
         bitArray = BitArray.valueOf(keyBytes);
-    }
-
-    public BitArray getBitArray() {
-        return bitArray;
     }
 
     public List<BitArray> getSubKeys(int blockPerSubKey) {
