@@ -3,15 +3,10 @@ package idea.operators;
 import idea.BitArray;
 
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 public class IDEAModuloMultiplierOperator implements IDEABinaryOperator {
     @Override
     public BitArray apply(BitArray binaryOne, BitArray binaryTwo) {
-//        if(binaryOne.size() != 16 || binaryTwo.size() != 16) {
-//            throw new IllegalArgumentException("ModuloMultiplier accepts only 16 bits values");
-//        }
-
         long binaryOneInt = binaryOne.toInt();
         long binaryTwoInt = binaryTwo.toInt();
 

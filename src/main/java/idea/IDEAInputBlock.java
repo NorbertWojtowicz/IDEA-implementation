@@ -2,7 +2,6 @@ package idea;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class IDEAInputBlock {
@@ -18,7 +17,7 @@ public class IDEAInputBlock {
         byte[] bytesInString = value.getBytes(StandardCharsets.UTF_8);
         System.arraycopy(bytesInString, 0, blockBytes, 0, bytesInString.length);
         if (blockBytes.length * 8 > BLOCK_SIZE) {
-            throw new RuntimeException("Blok przekracza limit " + BLOCK_SIZE + " bitow...");
+            throw new RuntimeException("Block exceeded limit of " + BLOCK_SIZE + " bits...");
         }
         return new IDEAInputBlock(blockBytes);
     }
@@ -32,7 +31,7 @@ public class IDEAInputBlock {
         BitArray resultPartFour = bitArrays.get(3);
 
         for(int i =0; i < 64; i++) {
-            boolean bitValue = false;
+            boolean bitValue;
 
             if (i < 16) {
                 bitValue = resultPartOne.get(i % 16);

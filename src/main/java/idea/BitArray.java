@@ -56,15 +56,6 @@ public class BitArray {
         bitArray[i] = value;
     }
 
-    public void flip(int i) {
-        bitArray[i] = !bitArray[i];
-    }
-
-    // TODO delete this method (available only for test cases)
-    public boolean[] getBitArray() {
-        return bitArray;
-    }
-
     @Override
     public String toString() {
         return toHexString();

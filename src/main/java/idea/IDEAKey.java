@@ -2,7 +2,6 @@ package idea;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class IDEAKey {
@@ -15,7 +14,7 @@ public class IDEAKey {
     public static IDEAKey createFromString(String key) {
         byte[] keyBytes = key.getBytes(StandardCharsets.UTF_8);
         if (keyBytes.length * 8 != KEY_BYTES) {
-            throw new RuntimeException("Ze wzgledow bezpieczenstwa klucz musi miec rozmiar " + KEY_BYTES + " bitow.");
+            throw new RuntimeException("For security reasons, the key size must be " + KEY_BYTES + " bits.");
         }
         return new IDEAKey(keyBytes);
     }
